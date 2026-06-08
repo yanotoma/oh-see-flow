@@ -1,6 +1,6 @@
 ---
 name: osf-isolate
-description: Use when starting feature work that needs isolation from current workspace. Creates isolated workspace via git worktree.
+description: Use when starting feature work that needs isolation from current workspace.
 ---
 
 # Isolate (Git Worktree)

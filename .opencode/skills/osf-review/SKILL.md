@@ -1,6 +1,6 @@
 ---
 name: osf-review
-description: Use when reviewing code changes, PRs, or asking for a code review. Checks for bugs, style, and best practices.
+description: Use when reviewing code changes, PRs, or asking for a code review.
 ---
 
 # Code Reviewer

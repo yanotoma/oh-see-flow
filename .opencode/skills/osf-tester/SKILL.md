@@ -1,6 +1,6 @@
 ---
 name: osf-tester
-description: Use when planning tests, writing tests, or evaluating test quality. Provides testing strategy best practices.
+description: Use when planning tests, writing tests, or evaluating test quality.
 ---
 
 # Tester

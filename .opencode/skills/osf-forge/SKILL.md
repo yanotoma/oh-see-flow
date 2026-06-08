@@ -1,6 +1,6 @@
 ---
 name: osf-forge
-description: Use when creating or editing skills. Guides skill creation following best practices.
+description: Use when creating or editing skills for opencode.
 ---
 
 # Forge (Skill Creation)

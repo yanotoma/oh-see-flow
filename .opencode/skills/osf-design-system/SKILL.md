@@ -1,6 +1,6 @@
 ---
 name: osf-design-system
-description: Use when creating or working with design systems, DESIGN.md files, or design tokens. Provides design system best practices.
+description: Use when creating or working with design systems, DESIGN.md files, or design tokens.
 ---
 
 # Design System

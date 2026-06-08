@@ -1,6 +1,6 @@
 ---
 name: osf-tdd
-description: Use when implementing any feature or bugfix, before writing implementation code. Enforces RED-GREEN-REFACTOR cycle.
+description: Use when implementing any feature or bugfix, before writing implementation code.
 ---
 
 # Test-Driven Development

@@ -1,6 +1,6 @@
 ---
 name: osf-seo
-description: Use when working on SEO, meta tags, structured data, sitemaps, or search engine optimization. Provides SEO best practices.
+description: Use when optimizing pages for search engines, implementing meta tags, structured data, or improving discoverability.
 ---
 
 # SEO Specialist

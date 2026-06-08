@@ -1,6 +1,6 @@
 ---
 name: osf-devops
-description: Use when working on CI/CD, deployment, infrastructure, or monitoring. Provides DevOps best practices.
+description: Use when working on CI/CD, deployment, infrastructure, or monitoring.
 ---
 
 # DevOps

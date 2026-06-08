@@ -1,6 +1,6 @@
 ---
 name: osf-backend
-description: Use when working on APIs, server architecture, data modeling, or backend performance. Provides backend best practices.
+description: Use when working on APIs, server architecture, data modeling, or backend performance.
 ---
 
 # Backend Developer

@@ -1,6 +1,6 @@
 ---
 name: osf-preflight
-description: Use when about to claim work is complete, before committing or creating PRs. Runs verification checks.
+description: Use when about to claim work is complete, before committing or creating PRs.
 ---
 
 # Pre-flight Check

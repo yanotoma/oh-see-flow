@@ -1,6 +1,6 @@
 ---
 name: osf-spark
-description: Use before any creative work — creating features, building components, adding functionality. Explores user intent and requirements before implementation.
+description: Use before any creative work — creating features, building components, or adding functionality to existing systems.
 ---
 
 # Spark (Brainstorming)

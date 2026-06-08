@@ -1,6 +1,6 @@
 ---
 name: osf-data
-description: Use when working on data modeling, queries, migrations, or data pipelines. Provides data architecture best practices.
+description: Use when working on data modeling, queries, migrations, or data pipelines.
 ---
 
 # Data Specialist

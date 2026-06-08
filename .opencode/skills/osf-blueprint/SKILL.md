@@ -1,6 +1,6 @@
 ---
 name: osf-blueprint
-description: Use when you have requirements and need to create an implementation plan. Breaks work into bite-sized tasks.
+description: Use when you have requirements and need to create an implementation plan.
 ---
 
 # Blueprint (Implementation Planning)

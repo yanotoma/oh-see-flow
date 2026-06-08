@@ -1,6 +1,6 @@
 ---
 name: osf-frontend
-description: Use when working on client-side code, components, state management, or frontend performance. Provides frontend best practices.
+description: Use when working on client-side code, components, state management, or frontend performance.
 ---
 
 # Frontend Developer

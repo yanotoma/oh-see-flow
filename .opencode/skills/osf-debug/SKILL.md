@@ -1,6 +1,6 @@
 ---
 name: osf-debug
-description: Use when encountering bugs, test failures, or unexpected behavior. Guides a systematic debugging process.
+description: Use when encountering bugs, test failures, or unexpected behavior in code.
 ---
 
 # Systematic Debugging
