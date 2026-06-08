@@ -1,7 +1,10 @@
 #!/bin/bash
 
 # oh-see-flow installer
-# Usage: curl -fsSL https://raw.githubusercontent.com/yanotoma/oh-see-flow/main/install.sh | bash
+# Usage: 
+#   Interactive: ./install.sh
+#   Non-interactive: ./install.sh --project (or --global)
+#   Pipe: curl -fsSL .../install.sh | bash -s -- --project
 
 set -e
 
@@ -17,14 +20,55 @@ echo ""
 # Cleanup on exit
 trap "rm -rf $TEMP_DIR" EXIT
 
-# Ask install location
-echo "Where do you want to install?"
-echo "  1) Project-local (.opencode/ in current directory)"
-echo "  2) Global (~/.config/opencode/)"
-read -p "Choice [1]: " install_choice
-install_choice=${install_choice:-1}
+# Parse arguments
+INSTALL_MODE=""
+for arg in "$@"; do
+  case $arg in
+    --project)
+      INSTALL_MODE="project"
+      ;;
+    --global)
+      INSTALL_MODE="global"
+      ;;
+    --help)
+      echo "Usage: ./install.sh [OPTIONS]"
+      echo ""
+      echo "Options:"
+      echo "  --project    Install to current project (.opencode/)"
+      echo "  --global     Install to global config (~/.config/opencode/)"
+      echo "  --help       Show this help"
+      echo ""
+      echo "Interactive mode: ./install.sh"
+      echo "Non-interactive: ./install.sh --project"
+      echo "Pipe mode: curl -fsSL .../install.sh | bash -s -- --project"
+      exit 0
+      ;;
+  esac
+done
 
-if [ "$install_choice" = "2" ]; then
+# Detect if stdin is available (not piped)
+if [ -t 0 ] && [ -z "$INSTALL_MODE" ]; then
+  # Interactive mode - stdin is available
+  echo "Where do you want to install?"
+  echo "  1) Project-local (.opencode/ in current directory)"
+  echo "  2) Global (~/.config/opencode/)"
+  read -p "Choice [1]: " install_choice
+  install_choice=${install_choice:-1}
+  
+  if [ "$install_choice" = "2" ]; then
+    INSTALL_MODE="global"
+  else
+    INSTALL_MODE="project"
+  fi
+elif [ -z "$INSTALL_MODE" ]; then
+  # Piped mode - default to project, user must pass --global if needed
+  echo "⚠️  Running in pipe mode. Defaulting to project-local install."
+  echo "   Use --global flag for global install: curl ... | bash -s -- --global"
+  echo ""
+  INSTALL_MODE="project"
+fi
+
+if [ "$INSTALL_MODE" = "global" ]; then
   INSTALL_DIR="$HOME/.config/opencode"
 else
   INSTALL_DIR=".opencode"
@@ -50,7 +94,7 @@ done
 # Download skills
 echo ""
 echo "Downloading skills..."
-for skill in osf-debug osf-review osf-tdd osf-spark osf-blueprint osf-forge osf-ask-review osf-handle-review osf-preflight osf-swarm osf-isolate osf-ui-designer osf-ux-expert osf-tester osf-backend osf-frontend osf-devops osf-data osf-design-system osf-engram; do
+for skill in osf-debug osf-review osf-tdd osf-spark osf-blueprint osf-forge osf-ask-review osf-handle-review osf-preflight osf-swarm osf-isolate osf-ui-designer osf-ux-expert osf-tester osf-backend osf-frontend osf-devops osf-data osf-design-system osf-engram osf-seo osf-create-skill; do
   mkdir -p "$INSTALL_DIR/skills/$skill"
   curl -sL "$REPO_URL/.opencode/skills/$skill/SKILL.md" -o "$INSTALL_DIR/skills/$skill/SKILL.md"
   echo "  ✓ $skill"
@@ -70,17 +114,29 @@ echo "════════════════════════�
 echo "Capability Model Configuration"
 echo "═══════════════════════════════════════"
 echo ""
-echo "Configure which models handle specific capabilities:"
-echo ""
 
-read -p "Model for vision/images [anthropic/claude-sonnet-4-6]: " vision_model
-vision_model=${vision_model:-"anthropic/claude-sonnet-4-6"}
-
-read -p "Model for large context [anthropic/claude-sonnet-4-6]: " context_model
-context_model=${context_model:-"anthropic/claude-sonnet-4-6"}
-
-read -p "Model for code execution [openai/gpt-4o]: " code_model
-code_model=${code_model:-"openai/gpt-4o"}
+# In pipe mode, use defaults
+if [ -t 0 ]; then
+  echo "Configure which models handle specific capabilities:"
+  echo ""
+  
+  read -p "Model for vision/images [anthropic/claude-sonnet-4-6]: " vision_model
+  vision_model=${vision_model:-"anthropic/claude-sonnet-4-6"}
+  
+  read -p "Model for large context [anthropic/claude-sonnet-4-6]: " context_model
+  context_model=${context_model:-"anthropic/claude-sonnet-4-6"}
+  
+  read -p "Model for code execution [openai/gpt-4o]: " code_model
+  code_model=${code_model:-"openai/gpt-4o"}
+else
+  echo "Using default capability models (pipe mode):"
+  echo "  Vision: anthropic/claude-sonnet-4-6"
+  echo "  Context: anthropic/claude-sonnet-4-6"
+  echo "  Code: openai/gpt-4o"
+  vision_model="anthropic/claude-sonnet-4-6"
+  context_model="anthropic/claude-sonnet-4-6"
+  code_model="openai/gpt-4o"
+fi
 
 # Save capability models config
 cat > .osf/capability-models.json << EOF
@@ -100,19 +156,28 @@ echo "════════════════════════�
 echo "MCP Configuration"
 echo "═══════════════════════════════════════"
 echo ""
-echo "Select MCPs to configure (comma-separated numbers, or 'all'):"
-echo "  1) Playwright - Browser automation"
-echo "  2) GitHub - Issues, PRs, repos"
-echo "  3) Sentry - Error monitoring"
-echo "  4) n8n - Workflow automation"
-echo "  5) Railway - Infrastructure"
-echo "  6) Context7 - Documentation lookup"
-echo "  7) Engram - Persistent memory"
-echo "  8) Stitch - Design systems"
-echo "  9) Cloudflare - Workers, DNS, CDN"
-echo "  0) None"
-read -p "Choice [0]: " mcp_choice
-mcp_choice=${mcp_choice:-0}
+
+# In pipe mode, skip MCP selection (user can configure manually later)
+if [ -t 0 ]; then
+  echo "Select MCPs to configure (comma-separated numbers, or 'all'):"
+  echo "  1) Playwright - Browser automation"
+  echo "  2) GitHub - Issues, PRs, repos"
+  echo "  3) Sentry - Error monitoring"
+  echo "  4) n8n - Workflow automation"
+  echo "  5) Railway - Infrastructure"
+  echo "  6) Context7 - Documentation lookup"
+  echo "  7) Engram - Persistent memory"
+  echo "  8) Stitch - Design systems"
+  echo "  9) Cloudflare - Workers, DNS, CDN"
+  echo "  0) None"
+  read -p "Choice [0]: " mcp_choice
+  mcp_choice=${mcp_choice:-0}
+else
+  echo "Skipping MCP selection (pipe mode)."
+  echo "Engram will be configured by default."
+  echo "Configure other MCPs manually in opencode.json after install."
+  mcp_choice="7"
+fi
 
 # Build MCP config
 MCP_CONFIG="{}"
@@ -120,6 +185,9 @@ if [ "$mcp_choice" != "0" ]; then
   MCP_CONFIG="{"
   if [[ "$mcp_choice" == *"1"* ]] || [ "$mcp_choice" = "all" ]; then
     MCP_CONFIG="$MCP_CONFIG\"playwright\":{\"type\":\"local\",\"command\":[\"npx\",\"-y\",\"@playwright/mcp\"],\"enabled\":true},"
+  fi
+  if [[ "$mcp_choice" == *"2"* ]] || [ "$mcp_choice" = "all" ]; then
+    MCP_CONFIG="$MCP_CONFIG\"github\":{\"type\":\"local\",\"command\":[\"npx\",\"-y\",\"@modelcontextprotocol/server-github\"],\"enabled\":true},"
   fi
   if [[ "$mcp_choice" == *"3"* ]] || [ "$mcp_choice" = "all" ]; then
     MCP_CONFIG="$MCP_CONFIG\"sentry\":{\"type\":\"local\",\"command\":[\"npx\",\"-y\",\"@sentry/mcp\"],\"enabled\":true},"
@@ -188,11 +256,15 @@ if [ -n "$MISSING_PREREQS" ]; then
   echo "Install the missing tools and run this script again."
   echo "Or continue anyway — MCPs will fail until prerequisites are installed."
   echo ""
-  read -p "Continue? [y]: " continue_choice
-  continue_choice=${continue_choice:-y}
-  if [ "$continue_choice" != "y" ]; then
-    echo "Aborted."
-    exit 1
+  if [ -t 0 ]; then
+    read -p "Continue? [y]: " continue_choice
+    continue_choice=${continue_choice:-y}
+    if [ "$continue_choice" != "y" ]; then
+      echo "Aborted."
+      exit 1
+    fi
+  else
+    echo "Continuing in pipe mode..."
   fi
 else
   echo "  ✓ All prerequisites satisfied"
@@ -297,15 +369,7 @@ cat > opencode.json << EOF
     }
   },
   "mcp": $MCP_CONFIG,
-  "plugin": [
-    "$INSTALL_DIR/plugins/engram-context.ts",
-    "$INSTALL_DIR/plugins/task-logger.ts",
-    "$INSTALL_DIR/plugins/result-collector.ts",
-    "$INSTALL_DIR/plugins/env-guard.ts",
-    "$INSTALL_DIR/plugins/model-stats.ts",
-    "$INSTALL_DIR/plugins/perf-monitor.ts",
-    "$INSTALL_DIR/plugins/capability-router.ts"
-  ],
+  "plugin": [],
   "permission": {
     "bash": {
       "git *": "allow",
@@ -341,7 +405,7 @@ if [ ! -f package.json ]; then
   cat > package.json << EOF
 {
   "name": "oh-see-flow",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "scripts": {
     "validate": "node scripts/validate-config.js && node scripts/validate-agents.js && node scripts/validate-skills.js && node scripts/validate-plugins.js",
     "validate:config": "node scripts/validate-config.js",
@@ -361,9 +425,13 @@ echo "════════════════════════�
 echo ""
 echo "Installed:"
 echo "  - 10 agents (orchestrator + 9 subagents)"
-echo "  - 20 skills (11 workflow + 9 role)"
-echo "  - 7 plugins"
+echo "  - 22 skills (12 workflow + 10 role)"
+echo "  - 7 plugins (saved to $INSTALL_DIR/plugins/)"
 echo "  - 4 validation scripts"
+echo ""
+echo "⚠️  Important: Plugins are disabled by default."
+echo "   opencode may not support TypeScript plugins directly."
+echo "   If you experience errors, remove the plugin entries from opencode.json."
 echo ""
 echo "Next steps:"
 echo "  1. Restart opencode to load the new config"

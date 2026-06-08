@@ -99,15 +99,7 @@
       "enabled": true
     }
   },
-  "plugin": [
-    ".opencode/plugins/engram-context.ts",
-    ".opencode/plugins/task-logger.ts",
-    ".opencode/plugins/result-collector.ts",
-    ".opencode/plugins/env-guard.ts",
-    ".opencode/plugins/model-stats.ts",
-    ".opencode/plugins/perf-monitor.ts",
-    ".opencode/plugins/capability-router.ts"
-  ],
+  "plugin": [],
   "permission": {
     "bash": {
       "git *": "allow",
