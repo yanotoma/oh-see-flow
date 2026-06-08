@@ -1,40 +1,116 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "username": "oh-see-flow-user",
   "instructions": ["AGENTS.md"],
-
   "skills": {
     "paths": [".opencode/skills"]
   },
-
   "agent": {
+    "orchestrator": {
+      "description": "Primary orchestrator — plans, decomposes, and delegates tasks to specialized subagents.",
+      "mode": "primary"
+    },
+    "coder": {
+      "description": "Implements code changes following project conventions and TDD practices.",
+      "mode": "subagent"
+    },
+    "tester": {
+      "description": "Writes and runs tests, reports coverage and quality.",
+      "mode": "subagent"
+    },
+    "researcher": {
+      "description": "Explores codebase, documentation, and web to gather context.",
+      "mode": "subagent"
+    },
     "reviewer": {
       "description": "Reviews code for quality, style, and potential issues.",
-      "mode": "subagent",
-      "prompt": "You are a thorough code reviewer. Focus on correctness, readability, and best practices."
+      "mode": "subagent"
     },
     "debugger": {
       "description": "Systematic debugging agent for diagnosing issues.",
-      "mode": "subagent",
-      "prompt": "You are a systematic debugger. Follow the debugging skill workflow to identify root causes."
+      "mode": "subagent"
+    },
+    "verifier": {
+      "description": "Validates that subagents completed their tasks correctly.",
+      "mode": "subagent"
+    },
+    "vision": {
+      "description": "Processes images, screenshots, diagrams, and visual content.",
+      "mode": "subagent"
+    },
+    "context-builder": {
+      "description": "Handles large documents and files that exceed normal context limits.",
+      "mode": "subagent"
+    },
+    "code-runner": {
+      "description": "Executes code, runs scripts, and manages code execution tasks.",
+      "mode": "subagent"
     }
   },
-
   "command": {
-    "review": {
-      "description": "Review the current changes for issues",
+    "osf:grill": {
+      "description": "Ask clarifying questions before planning",
+      "prompt": "Ask clarifying questions to understand what the user wants to build. One question at a time. After understanding, suggest creating a plan with osf:plan."
+    },
+    "osf:plan": {
+      "description": "Create an implementation plan",
+      "prompt": "Create a detailed implementation plan. Break work into independent subtasks. For each subtask, specify which subagent should handle it."
+    },
+    "osf:execute": {
+      "description": "Execute the plan via subagents",
+      "prompt": "Ask the user which execution mode they want (auto, review-plan, step-by-step, dry-run, direct), then execute the plan accordingly."
+    },
+    "osf:review": {
+      "description": "Review current changes",
       "prompt": "Review the current git diff for bugs, style issues, and improvements. Be specific about file and line numbers."
+    },
+    "osf:test": {
+      "description": "Run tests and report",
+      "prompt": "Run the project's tests and report results. If tests fail, suggest debugging with osf:debug."
+    },
+    "osf:debug": {
+      "description": "Start systematic debugging",
+      "prompt": "Use the osf-debug skill to systematically diagnose the issue."
+    },
+    "osf:deploy": {
+      "description": "Deploy (requires explicit user confirmation)",
+      "prompt": "Ask the user where they want to deploy (platform, project, environment) and how. Never deploy without explicit confirmation."
+    },
+    "osf:spec": {
+      "description": "Generate a spec from requirements",
+      "prompt": "Generate a specification document from the user's requirements. Include interfaces, contracts, and acceptance criteria."
+    },
+    "osf:ship": {
+      "description": "Full flow: test → review → merge → deploy",
+      "prompt": "Run the full flow: test, review, then ask user about merge/deploy. Never deploy without explicit confirmation."
+    },
+    "osf:finish": {
+      "description": "Finish branch — merge/PR/keep/discard",
+      "prompt": "All tasks complete. Present options: merge to main, create PR, keep branch, or discard. Let user choose."
+    },
+    "osf:refresh-registry": {
+      "description": "Refresh skill discovery registry",
+      "prompt": "Scan for skills in all known locations and regenerate the skill registry."
     }
   },
-
   "mcp": {},
-
-  "plugin": [],
-
+  "plugin": [
+    ".opencode/plugins/engram-context.ts",
+    ".opencode/plugins/task-logger.ts",
+    ".opencode/plugins/result-collector.ts",
+    ".opencode/plugins/env-guard.ts",
+    ".opencode/plugins/model-stats.ts",
+    ".opencode/plugins/perf-monitor.ts",
+    ".opencode/plugins/capability-router.ts"
+  ],
   "permission": {
     "bash": {
       "git *": "allow",
       "npm *": "allow",
+      "rm *": "ask",
+      "*": "ask"
+    },
+    "external_directory": {
+      "~/**": "ask",
       "*": "ask"
     }
   }
