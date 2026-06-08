@@ -1,0 +1,41 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "username": "oh-see-flow-user",
+  "instructions": ["AGENTS.md"],
+
+  "skills": {
+    "paths": [".opencode/skills"]
+  },
+
+  "agent": {
+    "reviewer": {
+      "description": "Reviews code for quality, style, and potential issues.",
+      "mode": "subagent",
+      "prompt": "You are a thorough code reviewer. Focus on correctness, readability, and best practices."
+    },
+    "debugger": {
+      "description": "Systematic debugging agent for diagnosing issues.",
+      "mode": "subagent",
+      "prompt": "You are a systematic debugger. Follow the debugging skill workflow to identify root causes."
+    }
+  },
+
+  "command": {
+    "review": {
+      "description": "Review the current changes for issues",
+      "prompt": "Review the current git diff for bugs, style issues, and improvements. Be specific about file and line numbers."
+    }
+  },
+
+  "mcp": {},
+
+  "plugin": [],
+
+  "permission": {
+    "bash": {
+      "git *": "allow",
+      "npm *": "allow",
+      "*": "ask"
+    }
+  }
+}
