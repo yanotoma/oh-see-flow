@@ -2,7 +2,7 @@
 
 Custom workflow configuration for [opencode](https://opencode.ai).
 
-Pronounced: **oh-see-flow**
+> **oh-see-flow** /ˌoʊ.siː.floʊ/ — Originally "OC Flow" (OpenCode Flow), pronounced as one word. The name stuck.
 
 ## Why oh-see-flow?
 
