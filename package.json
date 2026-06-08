@@ -18,7 +18,7 @@
     "release:minor": "npm version minor -m \"chore: release v%s\"",
     "release:major": "npm version major -m \"chore: release v%s\"",
     "release": "npm publish --access public",
-    "prepublishOnly": "npm run validate",
+    "prepublishOnly": "echo 'Use GitHub Actions to publish. Run: npm version patch/minor/major && git push'",
     "doctor": "node bin/oh-see-flow.js doctor",
     "cli": "node bin/oh-see-flow.js"
   },
