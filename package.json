@@ -1,6 +1,6 @@
 {
   "name": "@yanotoma/oh-see-flow",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Custom workflow configuration for opencode — agents, skills, MCPs, plugins, and rules. Pronounced oh-see-flow.",
   "main": "src/index.js",
   "bin": {
