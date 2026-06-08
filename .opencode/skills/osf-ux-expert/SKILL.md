@@ -1,6 +1,6 @@
 ---
 name: osf-ux-expert
-description: Use when making UX decisions, designing user flows, or improving usability. Provides UX best practices.
+description: Use when making UX decisions, designing user flows, or improving usability.
 ---
 
 # UX Expert

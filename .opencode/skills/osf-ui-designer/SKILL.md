@@ -1,6 +1,6 @@
 ---
 name: osf-ui-designer
-description: Use when doing UI work, creating components, or working on design systems. Provides visual design best practices.
+description: Use when doing UI work, creating components, or working on design systems.
 ---
 
 # UI Designer
