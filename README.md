@@ -11,101 +11,154 @@ Pronounced: **oh-see-flow**
 ├── AGENTS.md                  # Global rules and instructions
 ├── .opencode/
 │   ├── agents/
-│   │   ├── reviewer.md        # Code review subagent
-│   │   └── debugger.md        # Systematic debugging subagent
+│   │   ├── orchestrator.md    # Primary agent — plans and delegates
+│   │   ├── coder.md           # Implements code changes
+│   │   ├── tester.md          # Writes and runs tests
+│   │   ├── researcher.md      # Explores codebase, docs, web
+│   │   ├── reviewer.md        # Reviews code quality
+│   │   ├── debugger.md        # Systematic debugging
+│   │   ├── verifier.md        # Validates subagent output
+│   │   ├── vision.md          # Image processing
+│   │   ├── context-builder.md # Large context handling
+│   │   └── code-runner.md     # Code execution
 │   ├── skills/
-│   │   ├── code-reviewer/     # Code review workflow
-│   │   └── systematic-debugger/ # Debugging workflow
-│   └── plugins/               # Custom plugins (extend as needed)
+│   │   ├── osf-debug/         # Systematic debugging workflow
+│   │   ├── osf-review/        # Code review workflow
+│   │   ├── osf-tdd/           # Test-driven development
+│   │   ├── osf-spark/         # Brainstorming and exploration
+│   │   ├── osf-blueprint/     # Implementation planning
+│   │   ├── osf-ui-designer/   # UI design best practices
+│   │   ├── osf-ux-expert/     # UX best practices
+│   │   ├── osf-tester/        # Testing strategy
+│   │   ├── osf-backend/       # API/backend patterns
+│   │   ├── osf-frontend/      # Frontend patterns
+│   │   ├── osf-devops/        # CI/CD and infrastructure
+│   │   ├── osf-data/          # Data modeling and queries
+│   │   ├── osf-design-system/ # Design systems and DESIGN.md
+│   │   └── osf-engram/        # Engram memory protocol
+│   └── plugins/
+│       ├── engram-context.ts  # Auto-inject Engram memories
+│       ├── task-logger.ts     # Log orchestrator decisions
+│       ├── result-collector.ts # Format subagent results
+│       ├── env-guard.ts       # Block secrets from leaking
+│       ├── model-stats.ts     # Track token usage
+│       ├── perf-monitor.ts    # Track tokens/second
+│       └── capability-router.ts # Auto-dispatch capability subagents
+├── scripts/
+│   ├── validate-design.js     # Validate DESIGN.md structure
+│   ├── validate-skills.js     # Validate SKILL.md files
+│   ├── validate-agents.js     # Validate agent .md files
+│   ├── validate-config.js     # Validate opencode.json
+│   └── validate-plugins.js    # Validate plugin files
+└── install.sh                 # Interactive installer
 ```
 
-## Usage
-
-### Option 1: Copy to your project
-
-Copy the files you want into your project's root:
+## Quick Start
 
 ```bash
-cp -r .opencode/ /path/to/your/project/
-cp opencode.json /path/to/your/project/
-cp AGENTS.md /path/to/your/project/
+curl -fsSL https://raw.githubusercontent.com/yanotoma/oh-see-flow/main/install.sh | bash
 ```
 
-### Option 2: Use as global config
+The installer will:
+1. Ask where to install (project or global)
+2. Let you select which MCPs to configure
+3. Let you select which plugins to install
+4. Configure your model preferences
+5. Generate your `opencode.json`
 
-Copy to your global opencode config:
+## Commands
+
+All commands prefixed with `osf:`
+
+| Command | Description |
+|---------|-------------|
+| `osf:grill` | Ask clarifying questions before planning |
+| `osf:plan` | Orchestrator creates a plan for a task |
+| `osf:execute` | Execute the plan via subagents |
+| `osf:review` | Review current changes |
+| `osf:test` | Run tests and report |
+| `osf:debug` | Start systematic debugging |
+| `osf:deploy` | Deploy (requires explicit user confirmation) |
+| `osf:spec` | Generate a spec from requirements |
+| `osf:ship` | Full flow: test → review → merge → deploy |
+| `osf:finish` | Finish branch — merge/PR/keep/discard |
+| `osf:refresh-registry` | Refresh skill discovery registry |
+
+## Validation
+
+Run validators to check project structure:
 
 ```bash
-cp -r .opencode/ ~/.config/opencode/
-cp opencode.json ~/.config/opencode/
-cp AGENTS.md ~/.config/opencode/
+npm run validate          # Run all validators
+npm run validate:skills   # Validate skills only
+npm run validate:agents   # Validate agents only
+npm run validate:config   # Validate config only
 ```
 
-### Option 3: Reference skills from another project
+## Workflow
 
-Add to your project's `opencode.json`:
-
-```json
-{
-  "skills": {
-    "paths": ["/path/to/oh-see-flow/.opencode/skills"]
-  }
-}
+```
+osf:grill → osf:plan → osf:execute → osf:ship
+   ↓           ↓           ↓            ↓
+Questions    Plan      Subagents    Deploy
+  & Ideas   & Spec     & Verify    (with confirmation)
 ```
 
-## Customization
+## Skills
 
-### Adding Agents
+### Workflow Skills
+- `osf-debug` — Systematic debugging
+- `osf-review` — Code review
+- `osf-tdd` — Test-driven development
+- `osf-spark` — Brainstorming
+- `osf-blueprint` — Implementation planning
+- `osf-forge` — Skill creation
+- `osf-ask-review` — Request review
+- `osf-handle-review` — Process feedback
+- `osf-preflight` — Pre-completion checks
+- `osf-swarm` — Parallel subagents
+- `osf-isolate` — Git worktree isolation
 
-Create a new `.md` file in `.opencode/agents/`:
+### Role Skills
+- `osf-ui-designer` — UI and component design
+- `osf-ux-expert` — User experience
+- `osf-tester` — Testing strategy
+- `osf-backend` — API/backend patterns
+- `osf-frontend` — Frontend patterns
+- `osf-devops` — CI/CD and infrastructure
+- `osf-data` — Data modeling
+- `osf-design-system` — Design systems
+- `osf-engram` — Memory protocol
 
-```markdown
----
-description: What this agent does.
-mode: subagent
----
+## Available MCPs
 
-Your agent's system prompt here.
-```
+Select during install:
 
-### Adding Skills
+| MCP | Purpose |
+|-----|---------|
+| Playwright | Browser automation |
+| GitHub | Issues, PRs, repos |
+| Sentry | Error monitoring |
+| n8n | Workflow automation |
+| Railway | Infrastructure |
+| Context7 | Documentation lookup |
+| Engram | Persistent memory |
+| Stitch | Design systems |
+| Cloudflare | Workers, DNS, CDN |
 
-Create a new folder in `.opencode/skills/` with a `SKILL.md`:
+## Credits
 
-```markdown
----
-name: my-skill
-description: When to use this skill and what it does.
----
+oh-see-flow builds on the work of these open source projects:
 
-# My Skill
-
-Instructions here...
-```
-
-### Adding MCPs
-
-Add to `opencode.json` under `mcp`:
-
-```json
-{
-  "mcp": {
-    "my-server": {
-      "type": "local",
-      "command": ["npx", "-y", "my-mcp-server"],
-      "enabled": true
-    }
-  }
-}
-```
-
-### Adding Plugins
-
-Place `.ts` or `.js` files in `.opencode/plugins/`, or reference npm packages in `opencode.json`.
-
-## Contributing
-
-This is a personal workflow project. Fork it and make it your own!
+- [opencode](https://opencode.ai) — The AI coding agent platform
+- [Engram](https://github.com/obra/engram) — Persistent memory
+- [Playwright](https://playwright.dev) — Browser automation
+- [Sentry](https://sentry.io) — Error monitoring
+- [n8n](https://n8n.io) — Workflow automation
+- [Railway](https://railway.app) — Infrastructure
+- [Context7](https://context7.dev) — Documentation lookup
+- [Stitch](https://stitch.withgoogle.com) — Design systems
+- [Cloudflare](https://cloudflare.com) — Workers/CDN
 
 ## License
 
