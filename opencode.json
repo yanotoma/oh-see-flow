@@ -92,7 +92,13 @@
       "prompt": "Scan for skills in all known locations and regenerate the skill registry."
     }
   },
-  "mcp": {},
+  "mcp": {
+    "engram": {
+      "type": "local",
+      "command": ["engram", "mcp"],
+      "enabled": true
+    }
+  },
   "plugin": [
     ".opencode/plugins/engram-context.ts",
     ".opencode/plugins/task-logger.ts",

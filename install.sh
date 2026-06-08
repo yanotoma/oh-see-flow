@@ -134,7 +134,7 @@ if [ "$mcp_choice" != "0" ]; then
     MCP_CONFIG="$MCP_CONFIG\"context7\":{\"type\":\"local\",\"command\":[\"npx\",\"-y\",\"@context7/mcp\"],\"enabled\":true},"
   fi
   if [[ "$mcp_choice" == *"7"* ]] || [ "$mcp_choice" = "all" ]; then
-    MCP_CONFIG="$MCP_CONFIG\"engram\":{\"type\":\"local\",\"command\":[\"npx\",\"-y\",\"@engram/mcp\"],\"enabled\":true},"
+    MCP_CONFIG="$MCP_CONFIG\"engram\":{\"type\":\"local\",\"command\":[\"engram\",\"mcp\"],\"enabled\":true},"
   fi
   if [[ "$mcp_choice" == *"8"* ]] || [ "$mcp_choice" = "all" ]; then
     MCP_CONFIG="$MCP_CONFIG\"stitch\":{\"type\":\"local\",\"command\":[\"npx\",\"-y\",\"@stitch/mcp\"],\"enabled\":true},"
