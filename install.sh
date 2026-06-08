@@ -146,6 +146,58 @@ if [ "$mcp_choice" != "0" ]; then
   MCP_CONFIG="${MCP_CONFIG%,}}"
 fi
 
+# Check prerequisites for selected MCPs
+echo ""
+echo "═══════════════════════════════════════"
+echo "Checking prerequisites..."
+echo "═══════════════════════════════════════"
+echo ""
+
+MISSING_PREREQS=""
+
+if [[ "$mcp_choice" == *"1"* ]] || [ "$mcp_choice" = "all" ]; then
+  if ! command -v npx &> /dev/null; then
+    MISSING_PREREQS="$MISSING_PREREQS\n  - Playwright: requires Node.js/npm (https://nodejs.org)"
+  else
+    echo "  ✓ Node.js/npm found (for Playwright)"
+    echo "    Note: Run 'npx playwright install' to install browsers"
+  fi
+fi
+
+if [[ "$mcp_choice" == *"7"* ]] || [ "$mcp_choice" = "all" ]; then
+  if ! command -v engram &> /dev/null; then
+    MISSING_PREREQS="$MISSING_PREREQS\n  - Engram: requires installation (https://github.com/Gentleman-Programming/engram)"
+    echo "    Install with: brew install gentleman-programming/tap/engram"
+  else
+    echo "  ✓ Engram found"
+  fi
+fi
+
+# Check for Node.js if any npm-based MCPs selected
+if [[ "$mcp_choice" =~ [1345689] ]] || [ "$mcp_choice" = "all" ]; then
+  if ! command -v npx &> /dev/null; then
+    MISSING_PREREQS="$MISSING_PREREQS\n  - Node.js/npm: required for npm-based MCPs (https://nodejs.org)"
+  fi
+fi
+
+if [ -n "$MISSING_PREREQS" ]; then
+  echo ""
+  echo "⚠️  Missing prerequisites:"
+  echo -e "$MISSING_PREREQS"
+  echo ""
+  echo "Install the missing tools and run this script again."
+  echo "Or continue anyway — MCPs will fail until prerequisites are installed."
+  echo ""
+  read -p "Continue? [y]: " continue_choice
+  continue_choice=${continue_choice:-y}
+  if [ "$continue_choice" != "y" ]; then
+    echo "Aborted."
+    exit 1
+  fi
+else
+  echo "  ✓ All prerequisites satisfied"
+fi
+
 # Generate opencode.json
 echo ""
 echo "Generating opencode.json..."
