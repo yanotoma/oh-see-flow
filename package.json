@@ -1,21 +1,68 @@
 {
-  "name": "oh-see-flow",
+  "name": "@yanotoma/oh-see-flow",
   "version": "0.1.0",
   "description": "Custom workflow configuration for opencode — agents, skills, MCPs, plugins, and rules. Pronounced oh-see-flow.",
+  "main": "src/index.js",
+  "bin": {
+    "oh-see-flow": "bin/oh-see-flow.js"
+  },
   "scripts": {
     "validate": "node scripts/validate-config.js && node scripts/validate-agents.js && node scripts/validate-skills.js && node scripts/validate-plugins.js",
     "validate:config": "node scripts/validate-config.js",
     "validate:agents": "node scripts/validate-agents.js",
     "validate:skills": "node scripts/validate-skills.js",
     "validate:plugins": "node scripts/validate-plugins.js",
-    "version:patch": "npm version patch",
-    "version:minor": "npm version minor",
-    "version:major": "npm version major"
+    "version": "npm run validate && git add -A",
+    "postversion": "git push && git push --tags",
+    "release:patch": "npm version patch -m \"chore: release v%s\"",
+    "release:minor": "npm version minor -m \"chore: release v%s\"",
+    "release:major": "npm version major -m \"chore: release v%s\"",
+    "release": "npm publish --access public",
+    "prepublishOnly": "npm run validate",
+    "doctor": "node bin/oh-see-flow.js doctor",
+    "cli": "node bin/oh-see-flow.js"
   },
-  "keywords": ["opencode", "workflow", "agents", "skills", "ai"],
+  "keywords": [
+    "opencode",
+    "workflow",
+    "agents",
+    "skills",
+    "ai",
+    "cli",
+    "tdd",
+    "sdd",
+    "engram",
+    "orchestrator",
+    "subagents"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/yanotoma/oh-see-flow.git"
+  },
+  "homepage": "https://github.com/yanotoma/oh-see-flow",
+  "bugs": {
+    "url": "https://github.com/yanotoma/oh-see-flow/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "scripts/",
+    ".opencode/",
+    "AGENTS.md",
+    "install.sh",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "preferGlobal": true,
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^11.1.0",
+    "ora": "^5.4.1",
+    "inquirer": "^8.2.6"
   }
 }
