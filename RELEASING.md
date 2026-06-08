@@ -1,78 +1,110 @@
 # Releasing
 
-oh-see-flow uses GitHub Actions to automatically publish to npm when the version changes on `main`.
+oh-see-flow uses [semantic-release](https://github.com/semantic-release/semantic-release) for automatic versioning and publishing.
 
-## How to Release
+## How It Works
 
-### 1. Update the version
+When you push to `main`, GitHub Actions will:
+
+1. Analyze commit messages
+2. Determine the next version (patch/minor/major)
+3. Update `CHANGELOG.md`
+4. Create a GitHub Release with release notes
+5. Publish to npm
+6. Commit the version bump and changelog back to the repo
+
+## Commit Message Format
+
+Use [Conventional Commits](https://www.conventionalcommits.org/) to control versioning:
 
 ```bash
 # Patch release (0.1.0 -> 0.1.1)
-npm run release:patch
+fix: fix the login bug
+fix(auth): handle expired tokens
 
 # Minor release (0.1.0 -> 0.2.0)
-npm run release:minor
+feat: add dark mode support
+feat(ui): add theme selector
 
 # Major release (0.1.0 -> 1.0.0)
-npm run release:major
+feat!: redesign API structure
+BREAKING CHANGE: API endpoints changed
+
+# No release (documentation, chores, etc.)
+docs: update README
+chore: update dependencies
+ci: fix GitHub Actions workflow
 ```
 
-This will:
-- Update `package.json` version
-- Update `CHANGELOG.md`
-- Create a git commit
-- Create a git tag
-
-### 2. Push to GitHub
+## Workflow
 
 ```bash
-git push && git push --tags
+# 1. Make changes
+git add .
+git commit -m "feat: add new feature"
+
+# 2. Push to main
+git push origin main
+
+# 3. semantic-release handles everything automatically
 ```
 
-### 3. GitHub Actions does the rest
+## What Gets Released
 
-When you push to `main` with a new version, GitHub Actions will:
-1. Run validation checks
-2. Publish to npm
-3. Create a GitHub Release with release notes
+When a release happens, semantic-release will:
+
+- **Version**: Auto-bump based on commit type
+- **CHANGELOG.md**: Auto-update with release notes
+- **GitHub Release**: Auto-create with notes and tag
+- **npm**: Auto-publish `@yanotoma/oh-see-flow`
 
 ## Setup (One-time)
 
-### 1. Create npm access token
+### 1. npm access token
 
 1. Go to https://www.npmjs.com/settings/tokens
-2. Create a new token (Automation type)
+2. Create an **Automation** token
 3. Copy the token
 
-### 2. Add token to GitHub Secrets
+### 2. GitHub Secrets
 
-1. Go to your repo → Settings → Secrets and variables → Actions
-2. Click "New repository secret"
-3. Name: `NPM_TOKEN`
-4. Value: Your npm token
+Add these secrets to your repo (Settings → Secrets and variables → Actions):
 
-### 3. Ensure npm scope exists
+| Secret | Value |
+|--------|-------|
+| `NPM_TOKEN` | Your npm access token |
 
-If using a scoped package (`@yanotoma/oh-see-flow`):
+The `GITHUB_TOKEN` is automatically provided by GitHub Actions.
+
+### 3. npm scope
+
+Ensure the `@yanotoma` scope exists:
 ```bash
 npm login
 npm org create yanotoma  # If not already created
 ```
 
-## Versioning
-
-We follow [Semantic Versioning](https://semver.org/):
-
-- **PATCH** (0.1.0 → 0.1.1): Bug fixes, minor changes
-- **MINOR** (0.1.0 → 0.2.0): New features, backward compatible
-- **MAJOR** (0.1.0 → 1.0.0): Breaking changes
-
-## Manual Release (if needed)
+## Testing Locally
 
 ```bash
-# Validate
-npm run validate
+# Dry run (no actual release)
+npx semantic-release --dry-run
 
-# Publish
+# Check what version would be released
+npx semantic-release --dry-run --no-ci
+```
+
+## Manual Release (Emergency)
+
+If you need to force a release:
+
+```bash
+# Bump version manually
+npm version patch  # or minor/major
+
+# Push with tag
+git push && git push --tags
+
+# Publish manually
 npm publish --access public
 ```
