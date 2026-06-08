@@ -162,11 +162,19 @@ oh-see-flow uses Engram for:
 
 ### Install
 
+**Option 1: Download and run (recommended — TUI works)**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/yanotoma/oh-see-flow/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/yanotoma/oh-see-flow/main/install.sh -o install.sh
+chmod +x install.sh
+./install.sh
 ```
 
-The installer will:
+**Option 2: Quick install (no TUI, uses defaults)**
+```bash
+curl -fsSL https://raw.githubusercontent.com/yanotoma/oh-see-flow/main/install.sh | bash -s -- --project
+```
+
+The interactive installer will:
 1. Ask where to install (project or global)
 2. Configure capability models (vision, large context, code execution)
 3. Let you select which MCPs to configure
