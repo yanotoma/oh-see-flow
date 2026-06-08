@@ -148,10 +148,12 @@ Select during install:
 
 ## Credits
 
-oh-see-flow builds on the work of these open source projects:
+oh-see-flow is inspired by and builds on the work of these open source projects:
 
 - [opencode](https://opencode.ai) — The AI coding agent platform
-- [Engram](https://github.com/obra/engram) — Persistent memory
+- [obra/superpowers](https://github.com/obra/superpowers) — Skills-based development methodology, TDD workflow
+- [Gentleman-Programming/gentle-ai](https://github.com/Gentleman-Programming/gentle-ai) — SDD/OpenSpec flow, skill discovery, orchestrator contract
+- [Gentleman-Programming/engram](https://github.com/Gentleman-Programming/engram) — Persistent memory across sessions
 - [Playwright](https://playwright.dev) — Browser automation
 - [Sentry](https://sentry.io) — Error monitoring
 - [n8n](https://n8n.io) — Workflow automation

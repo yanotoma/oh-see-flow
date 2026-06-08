@@ -548,7 +548,7 @@ oh-see-flow is inspired by and builds on the work of these open source projects:
 | **opencode** | The AI coding agent platform this workflow extends | [opencode.ai](https://opencode.ai) |
 | **obra/superpowers** | Skills-based development methodology, TDD workflow, subagent-driven development | [github.com/obra/superpowers](https://github.com/obra/superpowers) |
 | **Gentleman-Programming/gentle-ai** | SDD/OpenSpec flow, skill discovery, orchestrator contract, memory delegation | [github.com/Gentleman-Programming/gentle-ai](https://github.com/Gentleman-Programming/gentle-ai) |
-| **Engram** | Persistent memory across sessions | [github.com/obra/engram](https://github.com/obra/engram) |
+| **Engram** | Persistent memory across sessions | [github.com/Gentleman-Programming/engram](https://github.com/Gentleman-Programming/engram) |
 | **Playwright** | Browser automation MCP | [playwright.dev](https://playwright.dev) |
 | **Sentry** | Error monitoring MCP | [sentry.io](https://sentry.io) |
 | **n8n** | Workflow automation MCP | [n8n.io](https://n8n.io) |
