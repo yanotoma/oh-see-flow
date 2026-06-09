@@ -1,3 +1,10 @@
+## [0.1.4](https://github.com/yanotoma/oh-see-flow/compare/v0.1.3...v0.1.4) (2026-06-09)
+
+
+### Bug Fixes
+
+* trigger release with new akirayano token ([6b9cb80](https://github.com/yanotoma/oh-see-flow/commit/6b9cb80c84772917fcae4c759bf2cec90c29725c))
+
 ## [0.1.3](https://github.com/yanotoma/oh-see-flow/compare/v0.1.2...v0.1.3) (2026-06-09)
 
 
