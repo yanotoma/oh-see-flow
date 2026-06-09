@@ -1,3 +1,11 @@
+## [0.1.3](https://github.com/yanotoma/oh-see-flow/compare/v0.1.2...v0.1.3) (2026-06-09)
+
+
+### Bug Fixes
+
+* change npm scope to [@akirayano](https://github.com/akirayano) ([188e116](https://github.com/yanotoma/oh-see-flow/commit/188e116fb0e098d4c6c7f3939ef0e18cc4d9c003))
+* change npm scope to [@akirayano](https://github.com/akirayano), resolve conflict ([71bfde1](https://github.com/yanotoma/oh-see-flow/commit/71bfde1229e521265872c9bc5ee35de26b97df16))
+
 ## [0.1.2](https://github.com/yanotoma/oh-see-flow/compare/v0.1.1...v0.1.2) (2026-06-09)
 
 
