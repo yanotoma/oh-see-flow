@@ -1,3 +1,11 @@
+## [0.1.5](https://github.com/yanotoma/oh-see-flow/compare/v0.1.4...v0.1.5) (2026-06-09)
+
+
+### Bug Fixes
+
+* use unscoped package name oh-see-flow ([057cfde](https://github.com/yanotoma/oh-see-flow/commit/057cfdeb127e62c256498a4ac197fed22240af52))
+* use unscoped package name oh-see-flow, resolve conflict ([a8437b3](https://github.com/yanotoma/oh-see-flow/commit/a8437b30816c31bcabc5d51cb24da54e74cb99b4))
+
 ## [0.1.4](https://github.com/yanotoma/oh-see-flow/compare/v0.1.3...v0.1.4) (2026-06-09)
 
 
