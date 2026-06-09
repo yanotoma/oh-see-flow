@@ -1,3 +1,10 @@
+## [0.1.2](https://github.com/yanotoma/oh-see-flow/compare/v0.1.1...v0.1.2) (2026-06-09)
+
+
+### Bug Fixes
+
+* trigger release with new token ([e0c85e6](https://github.com/yanotoma/oh-see-flow/commit/e0c85e6cfbef7b6e5447780ed400c69e8f1527e7))
+
 ## [0.1.1](https://github.com/yanotoma/oh-see-flow/compare/v0.1.0...v0.1.1) (2026-06-08)
 
 
