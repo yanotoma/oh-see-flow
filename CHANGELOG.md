@@ -1,3 +1,11 @@
+## [0.1.1](https://github.com/yanotoma/oh-see-flow/compare/v0.1.0...v0.1.1) (2026-06-08)
+
+
+### Bug Fixes
+
+* downgrade semantic-release to v24 for Node.js 20 compatibility ([4a8e9a7](https://github.com/yanotoma/oh-see-flow/commit/4a8e9a7f0dd9c176b12cab2a96331b96f3812109))
+* use Node.js 22, regenerate lock file ([e4bf656](https://github.com/yanotoma/oh-see-flow/commit/e4bf656cfd806ed198fa03fd3f5b26b2a0c2ed35))
+
 # Changelog
 
 All notable changes to oh-see-flow will be documented in this file.
